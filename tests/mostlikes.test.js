@@ -1,7 +1,7 @@
 const listHelper = require('../utils/list_helper')
 
-describe('autor con mas blogs', () => {
-  test('Retorna el autor con mas blogs', () => expect(listHelper.mostBlogs([
+describe('autor con mas likes', () => {
+  test('Retorna el autor con mas likes', () => expect(listHelper.mostLikes([
     {
       _id: "5a422a851b54a676234d17f7",
       title: "React patterns",
@@ -51,7 +51,7 @@ describe('autor con mas blogs', () => {
       __v: 0
     }  
   ])).toEqual({
-    author: "Robert C. Martin",
-    blogs: 3
+    author: "Edsger W. Dijkstra",
+    likes: 17
   }))
 })

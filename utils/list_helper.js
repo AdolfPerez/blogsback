@@ -12,26 +12,55 @@ module.exports = {
     return favorito
   },
   mostBlogs: blogs => {
-    const authors = blogs.map( blog => blog.author ).sort()
-    const repetidos = []
-    let cantidad = 1
-    for(let i = 0; i < authors.length; i++) {
-      if(authors[i] === authors[i+1]) cantidad++
-      if(authors[i] != authors[i+1]) {
-        repetidos.push([authors[i], cantidad])
-        cantidad = 1
+    const extraccionYOrdenamientoDeAutoresDeCadaBlog = blogs.map( blog => blog.author ).sort()
+    const autoresSinRepeticionYSuCantidadRespectivaDeBlogs = []
+    let cantidadDeBlogs = 1
+    for(let i = 0; i < extraccionYOrdenamientoDeAutoresDeCadaBlog.length; i++) {
+      if(extraccionYOrdenamientoDeAutoresDeCadaBlog[i] === extraccionYOrdenamientoDeAutoresDeCadaBlog[i+1]) cantidadDeBlogs++
+      if(extraccionYOrdenamientoDeAutoresDeCadaBlog[i] != extraccionYOrdenamientoDeAutoresDeCadaBlog[i+1]) {
+        autoresSinRepeticionYSuCantidadRespectivaDeBlogs.push([extraccionYOrdenamientoDeAutoresDeCadaBlog[i], cantidadDeBlogs])
+        cantidadDeBlogs = 1
       }
     }
     let autorConMasBlogs = [ '', 0 ]
-    for(let i = 0; i < repetidos.length; i++) {
-      if(autorConMasBlogs[1] < repetidos[i][1]){
-        autorConMasBlogs = repetidos[i]
+    for(let i = 0; i < autoresSinRepeticionYSuCantidadRespectivaDeBlogs.length; i++) {
+      if(autorConMasBlogs[1] < autoresSinRepeticionYSuCantidadRespectivaDeBlogs[i][1]){
+        autorConMasBlogs = autoresSinRepeticionYSuCantidadRespectivaDeBlogs[i]
       }
     }
-    autorConMasBlogs = {
+    let autorConMasBlogsObjeto = {
       author: autorConMasBlogs[0],
       blogs: autorConMasBlogs[1]
     }
-    return autorConMasBlogs
+    return autorConMasBlogsObjeto
+  },
+  mostLikes: blogs => {
+    const extraccionYOrdenamientoDeLosAutoresPorCadaUnoDeLosBlogs = blogs.map( blog => blog.author ).sort()
+    let autoresSinRepeticion = []
+    for(let i = 0; i < extraccionYOrdenamientoDeLosAutoresPorCadaUnoDeLosBlogs.length ; i++) {
+      if(extraccionYOrdenamientoDeLosAutoresPorCadaUnoDeLosBlogs[i] != extraccionYOrdenamientoDeLosAutoresPorCadaUnoDeLosBlogs[i+1]) {
+        autoresSinRepeticion.push(extraccionYOrdenamientoDeLosAutoresPorCadaUnoDeLosBlogs[i])
+      }
+    }
+    let autoresConSuLikesTotales = autoresSinRepeticion.map(autor => [autor, 0])
+    const blogsSoloAutorYLikes = blogs.map( blog => [blog.author, blog.likes] )
+    for(let i = 0; i < autoresConSuLikesTotales.length; i++) {
+      for(let j = 0; j < blogsSoloAutorYLikes.length; j++) {
+        if(autoresConSuLikesTotales[i][0] === blogsSoloAutorYLikes[j][0]) {
+          autoresConSuLikesTotales[i][1] += blogsSoloAutorYLikes[j][1]
+        }
+      }
+    }
+    let autorConMasLikes = ['', 0]
+    for(let i = 0; i < autoresConSuLikesTotales.length; i++) {
+      if(autorConMasLikes[1] < autoresConSuLikesTotales[i][1]){
+        autorConMasLikes = autoresConSuLikesTotales[i]
+      }
+    }
+    let autorConMasLikesObjeto = {
+      author: autorConMasLikes[0],
+      likes: autorConMasLikes[1]
+    }
+    return autorConMasLikesObjeto
   }
 }
