@@ -1,5 +1,3 @@
-const { request } = require('http')
-const { response } = require('../../notes/back_notes/app')
 const logger = require('./logger')
 module.exports = {
   requestLogger: (request, response, next) => {
