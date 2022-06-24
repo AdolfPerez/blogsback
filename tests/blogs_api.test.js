@@ -85,4 +85,19 @@ test('succeeds with status code 204 if id is valid', async () => {
   }
 })
 
+test('verificar que actualiza el blog', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+  blogToUpdate.likes += 1
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogToUpdate)
+    .expect(200)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogToUpdate.likes).toBe(blogsAtEnd[0].likes)
+  //se espera que los likes del objeto enviado al servidor sean iguales que los del objeto recibido del servidor
+})
+
 afterAll(() => mongoose.connection.close())
