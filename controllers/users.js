@@ -10,7 +10,7 @@ usersRouter.get('/', async (request, response) => {
   response.json(users)
 })
 
-usersRouter.post('/', async (request, response, next) => {
+usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
   if (!password) {
     return response.status(400).json({ error: 'User validation failed: password: Path `password` is required.' })
@@ -34,12 +34,8 @@ usersRouter.post('/', async (request, response, next) => {
     name,
     passwordHash,
   })
-  try{
     const savedUser = await user.save()
     response.status(201).json(savedUser)
-  } catch (exception) {
-    next(exception)
-  }
 })
 
 module.exports = usersRouter
