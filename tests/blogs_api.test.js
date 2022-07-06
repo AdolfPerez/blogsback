@@ -22,7 +22,6 @@ const newUserToken = async () => {
 
   const login = await api
   .post('/api/login')
-  .set('Content-Type', 'application/json')
   .send(user)
 
   return login.body.token
